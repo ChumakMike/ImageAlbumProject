@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Project.Data.Context {
     public class ApplicationContext : IdentityDbContext<ApplicationUser> {
-        public ApplicationContext(DbContextOptions optionsBuilder) : base(optionsBuilder) {
-        }
+        public ApplicationContext(DbContextOptions optionsBuilder) : base(optionsBuilder) { }
         public DbSet<Image> Images { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

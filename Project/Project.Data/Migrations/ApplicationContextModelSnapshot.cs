@@ -229,6 +229,23 @@ namespace Project.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Project.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Project.Data.Entities.Image", b =>
                 {
                     b.Property<int>("ImageId")
@@ -241,6 +258,9 @@ namespace Project.Data.Migrations
 
                     b.Property<string>("Caption")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -259,6 +279,8 @@ namespace Project.Data.Migrations
                     b.HasKey("ImageId");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Images");
                 });
@@ -342,6 +364,12 @@ namespace Project.Data.Migrations
                     b.HasOne("Project.Data.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Images")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Project.Data.Entities.Category", "Category")
+                        .WithMany("Images")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Project.Data.Entities.Rating", b =>
