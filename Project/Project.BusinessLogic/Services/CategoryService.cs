@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Project.BusinessLogic.EntitiesDTO;
+using Project.BusinessLogic.Exceptions;
 using Project.BusinessLogic.Interfaces;
 using Project.Data.Entities;
 using Project.Data.Repositories;
@@ -14,8 +15,8 @@ namespace Project.BusinessLogic.Services {
         private IUnitOfWork unitOfWork;
         private IMapper mapper;
 
-        public CategoryService(IUnitOfWork unit, IMapper map) {
-            unitOfWork = unit ?? throw new ArgumentNullException(nameof(unit));
+        public CategoryService(IUnitOfWork uow, IMapper map) {
+            unitOfWork = uow ?? throw new ArgumentNullException(nameof(uow));
             mapper = map ?? throw new ArgumentNullException(nameof(map));
         }
 
@@ -25,20 +26,28 @@ namespace Project.BusinessLogic.Services {
             await unitOfWork.SaveAsync();
         }
 
-        public Task<IEnumerable<CategoryDTO>> GetAllAsync() {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<CategoryDTO>> GetAllAsync() {
+            return mapper.Map<IEnumerable<CategoryDTO>>(await unitOfWork.CategoryRepository.GetAllAsync());
         }
 
-        public Task<CategoryDTO> GetByIdAsync(int id) {
-            throw new NotImplementedException();
+        public async Task<CategoryDTO> GetByIdAsync(int id) {
+            return mapper.Map<CategoryDTO>(await unitOfWork.CategoryRepository.GetByIdAsync(id));
         }
 
-        public Task Remove(CategoryDTO entity) {
-            throw new NotImplementedException();
+        public async Task Remove(CategoryDTO entity) {
+            var existingCategory = await GetByIdAsync(entity.CategoryId);
+            if (existingCategory == null)
+                throw new NoSuchEntityException(existingCategory.GetType().Name);
+            unitOfWork.CategoryRepository.Remove(mapper.Map<Category>(entity));
+            await unitOfWork.SaveAsync();
         }
 
-        public Task Update(CategoryDTO entity) {
-            throw new NotImplementedException();
+        public async Task Update(CategoryDTO entity) {
+            var existingCategory = await GetByIdAsync(entity.CategoryId);
+            if (existingCategory == null)
+                throw new NoSuchEntityException(existingCategory.GetType().Name);
+            unitOfWork.CategoryRepository.Update(mapper.Map<Category>(entity));
+            await unitOfWork.SaveAsync();
         }
     }
 }
