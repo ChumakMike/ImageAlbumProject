@@ -17,6 +17,13 @@ using Project.Data.Repositories;
 using Project.Data.Unit_Of_Work;
 using Project.Data.Interfaces;
 using AutoMapper;
+using Project.WebApi.Middleware;
+using Project.WebApi.Helpers;
+using Project.BusinessLogic.Interfaces;
+using Project.BusinessLogic.Services;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Project.WebApi {
     public class Startup {
@@ -28,10 +35,13 @@ namespace Project.WebApi {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+
+            services.Configure<ApplicationSettingsHelper>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
 
             AddDatabaseConfiguration(services);
             AddDependencyInjection(services);
+            AddJWTAuthentication(services);
 
             services.AddAutoMapper(
                 typeof(BusinessLogic.Mapping.MappingProfile)
@@ -52,11 +62,13 @@ namespace Project.WebApi {
             app.UseAuthorization();
 
             app.UseCors(builder =>
-                builder.WithOrigins(Configuration.GetConnectionString("DefaultConnection"))
+                builder.WithOrigins(Configuration["ApplicationSettings:Client_Url"].ToString())
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
             );
+
+            app.UseMiddleware<ProtectionMiddleware>();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
@@ -87,6 +99,29 @@ namespace Project.WebApi {
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IImageService, ImageService>();
+        }
+
+        private void AddJWTAuthentication(IServiceCollection services) {
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x => {
+                    x.RequireHttpsMetadata = true;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+                        ValidIssuer = Configuration["ApplicationSettings:Issuer_Url"].ToString(),
+                        ValidateIssuer = true,
+
+                        ValidAudience = Configuration["ApplicationSettings:Client_Url"].ToString(),
+                        ValidateAudience = true
+                    };
+                });
         }
 
     }

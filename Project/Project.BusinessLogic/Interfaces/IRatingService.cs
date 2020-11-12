@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.BusinessLogic.Interfaces {
-    interface IRatingService {
+    public interface IRatingService {
         Task<IEnumerable<RatingDTO>> GetAllAsync();
         Task<RatingDTO> GetByIdAsync(int id);
         Task<bool> AddAsync(RatingDTO entity);
