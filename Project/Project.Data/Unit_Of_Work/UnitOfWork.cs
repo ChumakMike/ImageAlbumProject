@@ -31,9 +31,9 @@ namespace Project.Data.Unit_Of_Work {
         private void Dispose(bool disposingValue) {
            if(!disposed) {
                 if (disposingValue) {
-                    categoryRepository.Dispose();
-                    imageRepository.Dispose();
-                    ratingRepository.Dispose();
+                    categoryRepository?.Dispose();
+                    imageRepository?.Dispose();
+                    ratingRepository?.Dispose();
                 }
                 disposed = true;
             }

@@ -99,7 +99,7 @@ namespace Project.WebApi {
         }
 
         private void AddDependencyInjection(IServiceCollection services) {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();

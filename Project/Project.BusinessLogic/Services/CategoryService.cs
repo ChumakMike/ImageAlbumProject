@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Project.BusinessLogic.Services {
     public class CategoryService : ICategoryService {
@@ -21,9 +22,14 @@ namespace Project.BusinessLogic.Services {
         }
 
         public async Task AddAsync(CategoryDTO entity) {
-            var category = mapper.Map<Category>(entity);
-            await unitOfWork.CategoryRepository.AddAsync(category);
-            await unitOfWork.SaveAsync();
+            var existingCategory = await GetByNameAsync(entity);
+            if (existingCategory == null) {
+                var category = mapper.Map<Category>(entity);
+                await unitOfWork.CategoryRepository.AddAsync(category);
+                await unitOfWork.SaveAsync();
+            }
+            else throw new SuchEntityExistsException(entity.GetType().Name);
+            
         }
 
         public async Task<IEnumerable<CategoryDTO>> GetAllAsync() {
@@ -35,10 +41,10 @@ namespace Project.BusinessLogic.Services {
         }
 
         public async Task Remove(CategoryDTO entity) {
-            var existingCategory = await GetByIdAsync(entity.CategoryId);
+            var existingCategory = await GetByNameAsync(entity);
             if (existingCategory == null)
                 throw new NoSuchEntityException(existingCategory.GetType().Name);
-            unitOfWork.CategoryRepository.Remove(mapper.Map<Category>(entity));
+            unitOfWork.CategoryRepository.Remove(mapper.Map<Category>(existingCategory));
             await unitOfWork.SaveAsync();
         }
 
@@ -48,6 +54,11 @@ namespace Project.BusinessLogic.Services {
                 throw new NoSuchEntityException(existingCategory.GetType().Name);
             unitOfWork.CategoryRepository.Update(mapper.Map<Category>(entity));
             await unitOfWork.SaveAsync();
+        }
+
+        public async Task<CategoryDTO> GetByNameAsync(CategoryDTO entity) {
+            var categoriesList = mapper.Map < IEnumerable < CategoryDTO >>(await unitOfWork.CategoryRepository.GetAllAsync());
+            return categoriesList.FirstOrDefault(x => x.Name == entity.Name);
         }
     }
 }

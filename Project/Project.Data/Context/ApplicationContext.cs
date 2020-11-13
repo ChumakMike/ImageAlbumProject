@@ -10,6 +10,6 @@ namespace Project.Data.Context {
         public ApplicationContext(DbContextOptions optionsBuilder) : base(optionsBuilder) { }
         public DbSet<Image> Images { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Category { get; set; }
     }
 }

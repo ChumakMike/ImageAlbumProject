@@ -11,5 +11,6 @@ namespace Project.BusinessLogic.Interfaces {
         Task AddAsync(CategoryDTO entity);
         Task Remove(CategoryDTO entity);
         Task Update(CategoryDTO entity);
+        Task<CategoryDTO> GetByNameAsync(CategoryDTO entity);
     }
 }
