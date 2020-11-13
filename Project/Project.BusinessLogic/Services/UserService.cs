@@ -18,7 +18,7 @@ namespace Project.BusinessLogic.Services {
         private ApplicationUserManager _userManager;
         public UserService(IMapper map, ApplicationUserManager userManager) {
             mapper = map ?? throw new ArgumentNullException(nameof(map));
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _userManager = userManager;
         }
         public async Task AddUserAsync(UserDTO user) {
             IdentityResult result = await _userManager.CreateAsync(mapper.Map<ApplicationUser>(user), user.Password);

@@ -24,6 +24,7 @@ using Project.BusinessLogic.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Project.BusinessLogic.Identity;
 
 namespace Project.WebApi {
     public class Startup {
@@ -44,7 +45,8 @@ namespace Project.WebApi {
             AddJWTAuthentication(services);
 
             services.AddAutoMapper(
-                typeof(BusinessLogic.Mapping.MappingProfile)
+                typeof(BusinessLogic.Mapping.MappingProfile),
+                typeof(WebApi.Mapping.MappingProfile)
             );
             services.AddCors();
 
@@ -68,7 +70,7 @@ namespace Project.WebApi {
                     .AllowCredentials()
             );
 
-            app.UseMiddleware<ProtectionMiddleware>();
+            //app.UseMiddleware<ProtectionMiddleware>();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
@@ -83,7 +85,9 @@ namespace Project.WebApi {
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddUserManager<ApplicationUserManager>()
+                .AddRoleManager<ApplicationRoleManager>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = false;
@@ -102,6 +106,9 @@ namespace Project.WebApi {
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IRatingService, RatingService>();
             services.AddTransient<IImageService, ImageService>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
         }
 
         private void AddJWTAuthentication(IServiceCollection services) {

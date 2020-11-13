@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Project.BusinessLogic.Interfaces {
     public interface IRoleService {
         Task CreateRoleAsync(RoleDTO role);
-        Task DeleteRoleASync(RoleDTO role);
+        Task DeleteRoleAsync(RoleDTO role);
         Task<IEnumerable<RoleDTO>> GetRolesByUserAsync(UserDTO user);
+        IEnumerable<RoleDTO> GetAllRoles();
     }
 }
