@@ -27,11 +27,10 @@ namespace Project.WebApi.Controllers {
         public async Task<IActionResult> GetAll() {
             var categoriesList = _mapper.Map<IEnumerable<CategoryVM>>
                 (await _categoryService.GetAllAsync());
-            return Ok(categoriesList);
+            return (categoriesList == null) 
+                ? (IActionResult)NotFound()
+                : Ok(categoriesList);
         }
-        
-        ///-- Task<CategoryDTO> GetByIdAsync(int id);
-        ///Task Update(CategoryDTO entity);
         
         [HttpPost]
         [Route("create")]
@@ -51,6 +50,16 @@ namespace Project.WebApi.Controllers {
                 return BadRequest("The category model is null");
             await _categoryService.Remove(_mapper.Map<CategoryDTO>(category));
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        //[Authorize(Roles = "Admin, Manager")]
+        public async Task<IActionResult> GetById(int id) {
+            var category = _mapper.Map<CategoryVM>(await _categoryService.GetByIdAsync(id));
+            return (category == null) 
+                ? (IActionResult)NotFound() 
+                : Ok(category);
         }
     }
 }

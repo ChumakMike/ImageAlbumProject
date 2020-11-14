@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Project.BusinessLogic.EntitiesDTO;
 using Project.WebApi.Models;
+using Project.WebApi.Models.Auth;
 
 namespace Project.WebApi.Mapping {
     public class MappingProfile : Profile {
@@ -20,8 +21,9 @@ namespace Project.WebApi.Mapping {
                 .ReverseMap();
             CreateMap<RoleDTO, RoleVM>()
                 .ReverseMap();
-            ///------------
             CreateMap<IdentityRole, RoleVM>()
+                .ReverseMap();
+            CreateMap<UserDTO, RegisterModel>()
                 .ReverseMap();
         }
     }

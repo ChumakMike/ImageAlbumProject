@@ -21,7 +21,11 @@ namespace Project.BusinessLogic.Services {
             _userManager = userManager;
         }
         public async Task AddUserAsync(UserDTO user) {
-            IdentityResult result = await _userManager.CreateAsync(mapper.Map<ApplicationUser>(user), user.Password);
+            ApplicationUser userToAdd = new ApplicationUser { 
+                UserName = user.UserName,
+                Email = user.Email 
+            };
+            IdentityResult result = await _userManager.CreateAsync(userToAdd, user.Password);
             if (!result.Succeeded) throw new UserInvalidOperationException(result.ToString());
         }
 
