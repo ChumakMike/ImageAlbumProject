@@ -40,11 +40,9 @@ namespace Project.BusinessLogic.Services {
             else throw new RoleException($"The role with name: {existingRole.Name} does not exist!");
         }
 
-        public async Task<IEnumerable<RoleDTO>> GetRolesByUserAsync(UserDTO user) {
-            return mapper.Map<IEnumerable<RoleDTO>>
-                (await _userManager.GetRolesAsync(
-                    mapper.Map<ApplicationUser>(user)
-                ));
+        public async Task<IList<string>> GetRolesByUserAsync(UserDTO user) {
+            return await _userManager.GetRolesAsync(
+                    mapper.Map<ApplicationUser>(user));
         }
 
         public IEnumerable<RoleDTO> GetAllRoles() {

@@ -13,5 +13,6 @@ namespace Project.BusinessLogic.Interfaces {
         Task AddUserAsync(UserDTO user);
         Task UpdateAsync(UserDTO user);
         Task RemoveAsync(UserDTO user);
+        Task<bool> AuthenticateAsync(UserDTO user);
     }
 }

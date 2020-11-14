@@ -13,17 +13,26 @@ namespace Project.WebApi.Mapping {
         public MappingProfile() {
             CreateMap<CategoryDTO, CategoryVM>()
                 .ReverseMap();
+
             CreateMap<ImageDTO, ImageVM>()
                 .ReverseMap();
+
             CreateMap<RatingDTO, RatingVM>()
                 .ReverseMap();
+
             CreateMap<UserDTO, UserVM>()
                 .ReverseMap();
+
             CreateMap<RoleDTO, RoleVM>()
                 .ReverseMap();
+
             CreateMap<IdentityRole, RoleVM>()
                 .ReverseMap();
+
             CreateMap<UserDTO, RegisterModel>()
+                .ReverseMap();
+
+            CreateMap<UserDTO, LoginModel>()
                 .ReverseMap();
         }
     }

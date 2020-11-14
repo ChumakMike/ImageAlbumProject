@@ -37,6 +37,13 @@ namespace Project.BusinessLogic.Services {
             if (!result.Succeeded) throw new UserInvalidOperationException(result.ToString());
         }
 
+        public async Task<bool> AuthenticateAsync(UserDTO user) {
+            var existingUser = await _userManager.FindByNameAsync(user.UserName);
+            if (existingUser == null) return false;
+
+            return await _userManager.CheckPasswordAsync(existingUser, user.Password);
+        }
+
         public async Task<IEnumerable<UserDTO>> GetAll() {
             return mapper.Map<IEnumerable<UserDTO>>(
                     await _userManager.Users.ToListAsync()

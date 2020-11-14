@@ -25,6 +25,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Project.BusinessLogic.Identity;
+using Microsoft.IdentityModel.Logging;
 
 namespace Project.WebApi {
     public class Startup {

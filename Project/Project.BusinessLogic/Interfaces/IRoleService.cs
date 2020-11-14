@@ -9,7 +9,7 @@ namespace Project.BusinessLogic.Interfaces {
     public interface IRoleService {
         Task CreateRoleAsync(RoleDTO role);
         Task DeleteRoleAsync(RoleDTO role);
-        Task<IEnumerable<RoleDTO>> GetRolesByUserAsync(UserDTO user);
+        Task<IList<string>> GetRolesByUserAsync(UserDTO user);
         IEnumerable<RoleDTO> GetAllRoles();
     }
 }
