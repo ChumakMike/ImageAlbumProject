@@ -6,6 +6,7 @@ using Project.BusinessLogic.Exceptions;
 using Project.BusinessLogic.Identity;
 using Project.BusinessLogic.Interfaces;
 using Project.Data.Entities;
+using Project.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,9 +17,11 @@ namespace Project.BusinessLogic.Services {
 
         private IMapper mapper;
         private ApplicationUserManager _userManager;
-        public UserService(IMapper map, ApplicationUserManager userManager) {
+        private IUnitOfWork unitOfWork;
+        public UserService(IMapper map, ApplicationUserManager userManager, IUnitOfWork uow) {
             mapper = map ?? throw new ArgumentNullException(nameof(map));
             _userManager = userManager;
+            unitOfWork = uow;
         }
         public async Task AddUserAsync(UserDTO user) {
             string defaultStatus = "Active";
@@ -71,7 +74,11 @@ namespace Project.BusinessLogic.Services {
             var existingUser = await _userManager.FindByNameAsync(user.UserName);
             if (existingUser == null) throw new NoSuchEntityException(existingUser.GetType().Name);
 
-            await _userManager.UpdateAsync(mapper.Map<ApplicationUser>(user));
+            existingUser.Bio = string.IsNullOrEmpty(user.Bio) ? existingUser.Bio : user.Bio;
+            existingUser.FullName = string.IsNullOrEmpty(user.FullName) ? existingUser.FullName : user.FullName;
+            existingUser.Status = string.IsNullOrEmpty(user.Status) ? existingUser.Status : user.Status;
+
+            await unitOfWork.SaveAsync();
         }
     }
 }

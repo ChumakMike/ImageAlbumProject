@@ -15,7 +15,7 @@ using Project.WebApi.Models;
 namespace Project.WebApi.Controllers {
     [Route("api/roles")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase {
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;

@@ -23,7 +23,7 @@ namespace Project.WebApi.Controllers {
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase {
-
+        
         private readonly ApplicationSettingsHelper _applicationSettings;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
@@ -80,7 +80,9 @@ namespace Project.WebApi.Controllers {
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
                     (Encoding.UTF8.GetBytes(_applicationSettings.JWT_Secret)),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _applicationSettings.Issuer_Url,
+                Audience = _applicationSettings.Client_Url
             };
 
             return tokenDescriptor;
