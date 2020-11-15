@@ -45,8 +45,8 @@ namespace Project.WebApi.Controllers {
 
         [HttpPost]
         [Route("addrole")]
-        public async Task<IActionResult> AddToRole(string username, string role) {
-            await _userService.AddUserToRoleAsync(username, role);
+        public async Task<IActionResult> AddToRole([FromBody] UserVM user) {
+            await _userService.AddUserToRoleAsync(user.UserName, user.Role);
             return Ok();
         }
         
@@ -57,9 +57,12 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
-        /*
-        Task UpdateRoleAsync(UserDTO user);
-         */
+        [HttpPut]
+        [Route("roleupdate")]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UserVM user) {
+            await _userService.UpdateRoleAsync(_mapper.Map<UserDTO>(user), user.Role);
+            return Ok();
+        }
 
     }
 }

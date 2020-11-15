@@ -12,5 +12,6 @@ namespace Project.WebApi.Models {
         public string FullName { get; set; }
         public string Bio { get; set; }
         public string Status { get; set; }
+        public string Role { get; set; }
     }
 }

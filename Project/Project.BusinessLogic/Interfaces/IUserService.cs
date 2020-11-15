@@ -14,5 +14,6 @@ namespace Project.BusinessLogic.Interfaces {
         Task UpdateAsync(UserDTO user);
         Task RemoveAsync(UserDTO user);
         Task<bool> AuthenticateAsync(UserDTO user);
+        Task UpdateRoleAsync(UserDTO user, string newRole);
     }
 }

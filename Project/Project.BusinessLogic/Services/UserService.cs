@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Project.BusinessLogic.Services {
     public class UserService : IUserService {
@@ -79,6 +80,17 @@ namespace Project.BusinessLogic.Services {
             existingUser.Status = string.IsNullOrEmpty(user.Status) ? existingUser.Status : user.Status;
 
             await unitOfWork.SaveAsync();
+        }
+
+        public async Task UpdateRoleAsync(UserDTO user, string newRole) {
+            var existingUser = await _userManager.FindByNameAsync(user.UserName);
+            if (existingUser == null) throw new NoSuchEntityException(existingUser.GetType().Name);
+
+            var roles = await _userManager.GetRolesAsync(existingUser);
+            if(roles != null) {
+                await _userManager.RemoveFromRoleAsync(existingUser, roles.FirstOrDefault());
+            }
+            await AddUserToRoleAsync(user.UserName, newRole);
         }
     }
 }
