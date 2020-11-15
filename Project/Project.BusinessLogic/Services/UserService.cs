@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Project.BusinessLogic.Services {
     public class UserService : IUserService {
-        
+
         private IMapper mapper;
         private ApplicationUserManager _userManager;
         public UserService(IMapper map, ApplicationUserManager userManager) {
@@ -21,9 +21,11 @@ namespace Project.BusinessLogic.Services {
             _userManager = userManager;
         }
         public async Task AddUserAsync(UserDTO user) {
-            ApplicationUser userToAdd = new ApplicationUser { 
+            string defaultStatus = "Active";
+            ApplicationUser userToAdd = new ApplicationUser {
                 UserName = user.UserName,
-                Email = user.Email 
+                Email = user.Email,
+                Status = defaultStatus
             };
             IdentityResult result = await _userManager.CreateAsync(userToAdd, user.Password);
             if (!result.Succeeded) throw new UserInvalidOperationException(result.ToString());
@@ -39,7 +41,7 @@ namespace Project.BusinessLogic.Services {
 
         public async Task<bool> AuthenticateAsync(UserDTO user) {
             var existingUser = await _userManager.FindByNameAsync(user.UserName);
-            if (existingUser == null) return false;
+            if (existingUser == null || !existingUser.Status.Equals("Active")) return false;
 
             return await _userManager.CheckPasswordAsync(existingUser, user.Password);
         }
