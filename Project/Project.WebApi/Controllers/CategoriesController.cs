@@ -23,7 +23,7 @@ namespace Project.WebApi.Controllers {
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin, User, Manager")]
+        [Authorize(Roles = "Admin, User, Manager")]
         public async Task<IActionResult> GetAll() {
             var categoriesList = _mapper.Map<IEnumerable<CategoryVM>>
                 (await _categoryService.GetAllAsync());
@@ -34,7 +34,7 @@ namespace Project.WebApi.Controllers {
         
         [HttpPost]
         [Route("create")]
-        //[Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Create([FromBody] CategoryVM category) {
             if (category == null)
                 return BadRequest("The category model is null");
@@ -44,7 +44,7 @@ namespace Project.WebApi.Controllers {
 
         [HttpPost]
         [Route("delete")]
-        //[Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Delete([FromBody] CategoryVM category) {
             if (category == null)
                 return BadRequest("The category model is null");
@@ -54,7 +54,7 @@ namespace Project.WebApi.Controllers {
 
         [HttpGet]
         [Route("{id}")]
-        //[Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> GetById(int id) {
             var category = _mapper.Map<CategoryVM>(await _categoryService.GetByIdAsync(id));
             return (category == null) 
