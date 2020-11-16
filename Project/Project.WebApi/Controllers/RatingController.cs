@@ -11,7 +11,7 @@ using Project.BusinessLogic.Interfaces;
 using Project.WebApi.Models;
 
 namespace Project.WebApi.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/ratings")]
     [ApiController]
     public class RatingController : ControllerBase {
 
@@ -22,13 +22,6 @@ namespace Project.WebApi.Controllers {
             _ratingService = ratingService;
         }
 
-        /*
-            Task<RatingDTO> GetByIdAsync(int id);
-            Task<bool> AddAsync(RatingDTO entity);
-            Task<IEnumerable<RatingDTO>> GetByUserIdAsync(string userId);
-            Task<int> GetRatingMarkAsync(int imageId);
-            Task<RatingDTO> GetByUserAndImageAsync(string userId, int imageId);
-        */
         [HttpGet]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetAll() {
@@ -40,6 +33,7 @@ namespace Project.WebApi.Controllers {
         }
 
         [HttpPost]
+        [Route("create")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AddRating(RatingVM rating) {
             if(rating == null)
@@ -47,9 +41,16 @@ namespace Project.WebApi.Controllers {
             bool result = await _ratingService.AddAsync(_mapper.Map<RatingDTO>(rating));
             return (result == true)
                 ? Ok()
-                : (IActionResult)BadRequest();
+                : (IActionResult)NotFound();
         }
 
+        [HttpGet]
+        [Route("{id : int}")]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> GetById(int id) {
+            var rating = _mapper.Map<RatingVM>(await _ratingService.GetByIdAsync(id));
+            return Ok(rating);
+        }
 
     }
 }

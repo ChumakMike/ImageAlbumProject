@@ -19,10 +19,12 @@ namespace Project.WebApi.Controllers {
 
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IRatingService _ratingService;
 
-        public UsersController(IUserService userService, IMapper mapper) {
+        public UsersController(IUserService userService, IMapper mapper, IRatingService ratingService) {
             _userService = userService;
             _mapper = mapper;
+            _ratingService = ratingService;
         }
 
         [HttpGet]
@@ -68,5 +70,14 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+        [HttpGet]
+        [Route("{id}/rated")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllRated(string id) {
+            var ratingsList = _mapper.Map<IEnumerable<RatingVM>>(await _ratingService.GetByUserIdAsync(id));
+            return (ratingsList == null)
+                ? (IActionResult)NotFound()
+                : Ok(ratingsList);
+        }
     }
 }
