@@ -16,10 +16,12 @@ namespace Project.WebApi.Controllers {
     public class CategoriesController : ControllerBase {
 
         private readonly IMapper _mapper;
-        private readonly ICategoryService _categoryService; 
-        public CategoriesController(IMapper mapper, ICategoryService categoryService) {
+        private readonly ICategoryService _categoryService;
+        private readonly IImageService _imageService;
+        public CategoriesController(IMapper mapper, ICategoryService categoryService, IImageService imageService) {
             _mapper = mapper;
             _categoryService = categoryService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -60,6 +62,17 @@ namespace Project.WebApi.Controllers {
             return (category == null) 
                 ? (IActionResult)NotFound() 
                 : Ok(category);
+        }
+
+       
+        [HttpGet]
+        [Route("{id}/images")]
+        [Authorize(Roles = "Admin, Manager, User")]
+        public async Task<IActionResult> GetImagesByCategoryId(int id) {
+            var imagesList = _mapper.Map<ImageVM>(await _imageService.GetByCategoryIdAsync(id));
+            return (imagesList == null)
+                ? (IActionResult)NotFound()
+                : Ok(imagesList);
         }
     }
 }

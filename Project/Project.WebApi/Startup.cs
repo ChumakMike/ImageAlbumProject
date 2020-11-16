@@ -26,6 +26,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Project.BusinessLogic.Identity;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Project.WebApi {
     public class Startup {
@@ -51,6 +54,12 @@ namespace Project.WebApi {
             );
             services.AddCors();
 
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +81,13 @@ namespace Project.WebApi {
             );
 
             //app.UseMiddleware<ProtectionMiddleware>();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions() {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

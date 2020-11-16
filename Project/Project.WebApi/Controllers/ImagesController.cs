@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -43,17 +45,41 @@ namespace Project.WebApi.Controllers {
             return Ok(image);
         }
 
-        [HttpPost]
+        [HttpPost, DisableRequestSizeLimit]
         [Route("create")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AddImage([FromBody] ImageVM image) {
             if (image == null)
                 return BadRequest("The image model is null");
-            
-            //--------  add photo upload
+            try {
 
-            await _imageService.AddAsync(_mapper.Map<ImageDTO>(image));
-            return Ok();
+                //check
+
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "ImagesStorage");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (file.Length > 0) {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create)) {
+                        file.CopyTo(stream);
+                    }
+                    
+                    image.CreatedAt = DateTime.Now;
+                    image.Name = fileName;
+                    image.Link = fullPath;
+
+                    await _imageService.AddAsync(_mapper.Map<ImageDTO>(image));
+                    return Ok();
+                }
+                else return BadRequest();
+
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
         [HttpDelete]
@@ -76,12 +102,6 @@ namespace Project.WebApi.Controllers {
             await _imageService.Update(_mapper.Map<ImageDTO>(image));
             return Ok();
         }
-
-        /*
-            Task<IEnumerable<ImageDTO>> GetByUserIdAsync(string userId); --> users/id/images
-            Task<IEnumerable<ImageDTO>> GetByCategoryIdAsync(int categoryId); --> categories/id/images
-
-         */
 
     }
 }

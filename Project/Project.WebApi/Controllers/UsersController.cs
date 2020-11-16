@@ -20,11 +20,14 @@ namespace Project.WebApi.Controllers {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IRatingService _ratingService;
+        private readonly IImageService _imageService;
 
-        public UsersController(IUserService userService, IMapper mapper, IRatingService ratingService) {
+        public UsersController(IUserService userService, IMapper mapper, 
+            IRatingService ratingService, IImageService imageService) {
             _userService = userService;
             _mapper = mapper;
             _ratingService = ratingService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -78,6 +81,16 @@ namespace Project.WebApi.Controllers {
             return (ratingsList == null)
                 ? (IActionResult)NotFound()
                 : Ok(ratingsList);
+        }
+
+        [HttpGet]
+        [Route("{id}/images")]
+        [Authorize(Roles = "Admin, Manager, User")]
+        public async Task<IActionResult> GetImagesByUserId(string id) {
+            var imagesList = _mapper.Map<ImageVM>(await _imageService.GetByUserIdAsync(id));
+            return (imagesList == null)
+                ? (IActionResult)NotFound()
+                : Ok(imagesList);
         }
     }
 }
