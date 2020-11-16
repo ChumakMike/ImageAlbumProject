@@ -12,5 +12,7 @@ namespace Project.WebApi.Models {
         public DateTime CreatedAt { get; set; }
         public string UserRefId { get; set; }
         public int CategoryId { get; set; }
+
+        public int Rating { get; set; }
     }
 }

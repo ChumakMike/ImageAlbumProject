@@ -35,11 +35,24 @@ namespace Project.Data.Repositories {
         }
 
         public void Remove(Image entity) {
+            DetachLocalEntity(entity);
+            _context.Entry(entity).State = EntityState.Deleted;
             _context.Images.Remove(entity);
         }
 
         public void Update(Image entity) {
+            DetachLocalEntity(entity);
             _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        private void DetachLocalEntity(Image entity) {
+            var local = _context.Set<Image>()
+                        .Local
+                        .FirstOrDefault(x => x.ImageId == entity.ImageId);
+            if (local != null) {
+                _context.Entry(local).State = EntityState.Detached;
+            }
+            _context.Images.Attach(entity);
         }
     }
 }
