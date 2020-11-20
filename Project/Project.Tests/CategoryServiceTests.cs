@@ -84,7 +84,7 @@ namespace Project.Tests {
         }
 
         [Fact]
-        public async Task CategoryService_AddAsunc_AddsNewCategory() {
+        public async Task CategoryService_AddAsync_AddsNewCategory() {
 
             _unitOfWorkMock.Setup(x => x.CategoryRepository.AddAsync(It.IsAny<Category>())).Verifiable();
 

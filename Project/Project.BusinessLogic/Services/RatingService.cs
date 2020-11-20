@@ -22,7 +22,7 @@ namespace Project.BusinessLogic.Services {
         
         public async Task<bool> AddAsync(RatingDTO entity) {
             var existingRating = await GetByUserAndImageAsync(entity.UserId, entity.ImageId);
-            if(existingRating == null) 
+            if(existingRating != null) 
                 return false;
             else {
                 var rating = mapper.Map<Rating>(entity);
@@ -43,7 +43,7 @@ namespace Project.BusinessLogic.Services {
         public async Task<RatingDTO> GetByUserAndImageAsync(string userId, int imageId) {
             var ratingsList = await unitOfWork.RatingRepository.GetAllAsync();
             return mapper.Map<RatingDTO>
-                (ratingsList.Where(x => x.UserId == userId && x.ImageId == imageId));
+                (ratingsList.Where(x => x.UserId == userId && x.ImageId == imageId).FirstOrDefault());
         }
 
         public async Task<IEnumerable<RatingDTO>> GetByUserIdAsync(string userId) {
@@ -54,8 +54,9 @@ namespace Project.BusinessLogic.Services {
 
         public async Task<int> GetRatingMarkAsync(int imageId) {
             var ratingsList = await unitOfWork.RatingRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<RatingDTO>>
-                (ratingsList.Where(x => x.ImageId == imageId)).Count();
+            return ratingsList.Count() <= 0 
+                ? 0 
+                : mapper.Map<IEnumerable<RatingDTO>>(ratingsList.Where(x => x.ImageId == imageId)).Count();
         }
     }
 }
