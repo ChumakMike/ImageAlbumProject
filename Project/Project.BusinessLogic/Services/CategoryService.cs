@@ -51,7 +51,7 @@ namespace Project.BusinessLogic.Services {
         public async Task Update(CategoryDTO entity) {
             var existingCategory = await GetByIdAsync(entity.CategoryId);
             if (existingCategory == null)
-                throw new NoSuchEntityException(existingCategory.GetType().Name);
+                throw new NoSuchEntityException(typeof(CategoryDTO).Name);
             unitOfWork.CategoryRepository.Update(mapper.Map<Category>(entity));
             await unitOfWork.SaveAsync();
         }
