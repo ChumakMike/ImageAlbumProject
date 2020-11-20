@@ -9,18 +9,10 @@ using Project.Data.Entities;
 using Xunit;
 using System.Threading.Tasks;
 using System.Linq;
+using Project.Tests.TestBase;
 
 namespace Project.Tests {
-    public class RatingServiceTests {
-        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-        private readonly IMapper _mapper;
-        private readonly RatingService _ratingService;
-        public RatingServiceTests() {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _mapper = configuration.CreateMapper();
-            _ratingService = new RatingService(_unitOfWorkMock.Object, _mapper);
-        }
+    public class RatingServiceTests : ApplicationServicesTestBase {
 
         [Fact]
         public async Task RatingService_GetAll_ReturnsAllElementsWithCorrectValues() {
@@ -135,12 +127,6 @@ namespace Project.Tests {
                 x.UserId == expected.UserId 
                 && x.RatingId == expected.RatingId 
                 && x.ImageId == expected.ImageId);
-        }
-        private IEnumerable<Rating> GetRatingsList() {
-            return new List<Rating> {
-                new Rating { RatingId = 1, ImageId = 1, UserId = "user1" },
-                new Rating { RatingId = 2, ImageId = 1, UserId = "user2" }
-            };
         }
     }
 }
