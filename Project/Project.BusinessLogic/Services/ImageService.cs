@@ -48,7 +48,7 @@ namespace Project.BusinessLogic.Services {
         public async Task Remove(ImageDTO entity) {
             var existingImage = await GetByIdAsync(entity.ImageId);
             if (existingImage == null)
-                throw new NoSuchEntityException(existingImage.GetType().Name);
+                throw new NoSuchEntityException(typeof(ImageDTO).Name);
             unitOfWork.ImageRepository.Remove(mapper.Map<Image>(entity));
             await unitOfWork.SaveAsync();
         }
@@ -56,7 +56,7 @@ namespace Project.BusinessLogic.Services {
         public async Task Update(ImageDTO entity) {
             var existingImage = await GetByIdAsync(entity.ImageId);
             if (existingImage == null)
-                throw new NoSuchEntityException(existingImage.GetType().Name);
+                throw new NoSuchEntityException(typeof(ImageDTO).Name);
             unitOfWork.ImageRepository.Update(mapper.Map<Image>(entity));
             await unitOfWork.SaveAsync();
         }

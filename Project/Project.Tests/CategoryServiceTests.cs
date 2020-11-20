@@ -124,7 +124,7 @@ namespace Project.Tests {
             _unitOfWorkMock.Setup(x => x.CategoryRepository.GetAllAsync()).ReturnsAsync(categories);
             _unitOfWorkMock.Setup(x => x.CategoryRepository.Remove(category)).Throws(new NoSuchEntityException(""));
 
-            await Assert.ThrowsAsync<NullReferenceException>(
+            await Assert.ThrowsAsync<NoSuchEntityException>(
                 () => _categoryService.Remove(
                     _mapper.Map<CategoryDTO>(category)));
         }

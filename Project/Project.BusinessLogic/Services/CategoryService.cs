@@ -43,7 +43,7 @@ namespace Project.BusinessLogic.Services {
         public async Task Remove(CategoryDTO entity) {
             var existingCategory = await GetByNameAsync(entity);
             if (existingCategory == null)
-                throw new NoSuchEntityException(existingCategory.GetType().Name);
+                throw new NoSuchEntityException(typeof(CategoryDTO).Name);
             unitOfWork.CategoryRepository.Remove(mapper.Map<Category>(existingCategory));
             await unitOfWork.SaveAsync();
         }
