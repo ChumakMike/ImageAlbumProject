@@ -25,5 +25,9 @@
     <ProjectReference Include="..\Project.Data\Project.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Rosources\ImageStorage\" />
+  </ItemGroup>
+
 
 </Project>

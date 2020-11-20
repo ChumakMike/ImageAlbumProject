@@ -29,6 +29,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Project.WebApi {
     public class Startup {
