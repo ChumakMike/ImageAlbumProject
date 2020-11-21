@@ -39,5 +39,9 @@ export class UserService {
     }
     return this.http.post(this.apiURL + "/api/auth/register" ,user);
   }
+
+  login(data) {
+      return this.http.post(this.apiURL + "/api/auth/login" , data);
+  }
   
 }
