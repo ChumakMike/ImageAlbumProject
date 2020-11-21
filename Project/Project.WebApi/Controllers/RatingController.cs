@@ -45,7 +45,7 @@ namespace Project.WebApi.Controllers {
         }
 
         [HttpGet]
-        [Route("{id : int}")]
+        [Route("{id}")]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetById(int id) {
             var rating = _mapper.Map<RatingVM>(await _ratingService.GetByIdAsync(id));

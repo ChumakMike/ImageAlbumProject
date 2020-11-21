@@ -37,7 +37,7 @@ namespace Project.WebApi.Controllers {
         }
 
         [HttpGet]
-        [Route("{id : int}")]
+        [Route("{id}")]
         [Authorize(Roles = "Admin, Manager, User")]
         public async Task<IActionResult> GetById(int id) {
             var image = _mapper.Map<ImageVM>(await _imageService.GetByIdAsync(id));

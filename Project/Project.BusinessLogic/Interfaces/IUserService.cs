@@ -1,4 +1,5 @@
-﻿using Project.BusinessLogic.EntitiesDTO;
+﻿using Microsoft.AspNetCore.Identity;
+using Project.BusinessLogic.EntitiesDTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Project.BusinessLogic.Interfaces {
         Task<UserDTO> GetByUserNameAsync(string userName);
         Task<IEnumerable<UserDTO>> GetAll();
         Task AddUserToRoleAsync(string userName, string role);
-        Task AddUserAsync(UserDTO user);
+        Task<IdentityResult> AddUserAsync(UserDTO user);
         Task UpdateAsync(UserDTO user);
         Task RemoveAsync(UserDTO user);
         Task<bool> AuthenticateAsync(UserDTO user);

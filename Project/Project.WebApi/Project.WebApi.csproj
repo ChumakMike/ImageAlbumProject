@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Rosources\ImageStorage\" />
+    <Folder Include="Resources\ImageStorage\" />
   </ItemGroup>
 
 

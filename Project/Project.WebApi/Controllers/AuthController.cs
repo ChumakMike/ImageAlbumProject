@@ -65,9 +65,9 @@ namespace Project.WebApi.Controllers {
             if(user == null)
                 return BadRequest("The user model is null");
             string defaultRole = "User";
-            await _userService.AddUserAsync(_mapper.Map<UserDTO>(user));
+            var result = await _userService.AddUserAsync(_mapper.Map<UserDTO>(user));
             await _userService.AddUserToRoleAsync(user.UserName, defaultRole);
-            return Ok();
+            return Ok(result);
         }
 
         private SecurityTokenDescriptor CreateTokenDescriptor(IList<string> roles, string userId) {

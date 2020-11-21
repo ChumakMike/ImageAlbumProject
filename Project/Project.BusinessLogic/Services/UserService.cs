@@ -24,7 +24,7 @@ namespace Project.BusinessLogic.Services {
             _userManager = userManager;
             unitOfWork = uow;
         }
-        public async Task AddUserAsync(UserDTO user) {
+        public async Task<IdentityResult> AddUserAsync(UserDTO user) {
             string defaultStatus = "Active";
             ApplicationUser userToAdd = new ApplicationUser {
                 UserName = user.UserName,
@@ -33,6 +33,7 @@ namespace Project.BusinessLogic.Services {
             };
             IdentityResult result = await _userManager.CreateAsync(userToAdd, user.Password);
             if (!result.Succeeded) throw new UserInvalidOperationException(result.ToString());
+            return result;
         }
 
         public async Task AddUserToRoleAsync(string userName, string role) {
