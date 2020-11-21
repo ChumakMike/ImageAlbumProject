@@ -17,8 +17,18 @@ using Project.BusinessLogic.EntitiesDTO;
 using Project.BusinessLogic.Exceptions;
 
 namespace Project.Tests {
-    public class CategoryServiceTests : ApplicationServicesTestBase {
+    public class CategoryServiceTests {
 
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly IMapper _mapper;
+        private readonly CategoryService _categoryService;
+        public CategoryServiceTests() {
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _mapper = configuration.CreateMapper();
+            _categoryService = new CategoryService(_unitOfWorkMock.Object, _mapper);
+        }
+        
         [Fact]
         public async Task CategoryService_GetAll_ReturnsAllElementsWithCorrectValues() {
            
@@ -130,6 +140,13 @@ namespace Project.Tests {
             await Assert.ThrowsAsync<NoSuchEntityException>(
                 () => _categoryService.Update(
                     _mapper.Map<CategoryDTO>(category)));
+        }
+
+        private IEnumerable<Category> GetCategoriesList() {
+            return new List<Category> { 
+                new Category {CategoryId = 1, Name = "Nature"},
+                new Category {CategoryId = 2, Name = "Animals"}
+            };
         }
     }
 }

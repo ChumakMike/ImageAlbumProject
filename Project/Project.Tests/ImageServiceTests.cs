@@ -10,11 +10,19 @@ using Xunit;
 using System.Threading.Tasks;
 using System.Linq;
 using Project.BusinessLogic.Exceptions;
-using Project.Tests.TestBase;
 
 namespace Project.Tests {
-    public class ImageServiceTests : ApplicationServicesTestBase {
- 
+    public class ImageServiceTests {
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly IMapper _mapper;
+        private readonly ImageService _imageService;
+        public ImageServiceTests() {
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _mapper = configuration.CreateMapper();
+            _imageService = new ImageService(_unitOfWorkMock.Object, _mapper);
+        }
+
         [Fact]
         public async Task ImageService_GetAll_ReturnsAllElementsWithCorrectValues() {
 
@@ -195,6 +203,14 @@ namespace Project.Tests {
             await _imageService.Update(_mapper.Map<ImageDTO>(image));
 
             _unitOfWorkMock.Verify(x => x.ImageRepository.Update(It.IsAny<Image>()), Times.Once());
+        }
+
+        private IEnumerable<Image> GetImagesList() {
+            return new List<Image> {
+                new Image { ImageId = 1, Caption = "Caption", Name = "Image1", Link = "/image1", CategoryId = 1, UserRefId = "user"},
+                new Image { ImageId = 2, Caption = "Caption2", Name = "Image2", Link = "/image2", CategoryId = 3, UserRefId = "user2"},
+                new Image { ImageId = 3, Caption = "Caption3", Name = "Image3", Link = "/image3", CategoryId = 1, UserRefId = "user"},
+            };
         }
     }
 }
