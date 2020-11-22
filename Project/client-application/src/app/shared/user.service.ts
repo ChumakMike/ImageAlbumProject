@@ -45,8 +45,7 @@ export class UserService {
   }
 
   getCurrentUserDataById() {
-    let headerWithToken = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')});
-    return this.http.get(this.baseUri + '/api/users/profile', { headers : headerWithToken });
+    return this.http.get(this.baseUri + '/api/users/profile');
   }
-  
+
 }

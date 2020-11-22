@@ -26,9 +26,7 @@ export class HomeComponent implements OnInit {
   loadCurrentUserData() {
     this.userService.getCurrentUserDataById().subscribe(
       (res:any) => {
-        console.log(res);
         this.userModel = res;
-        console.log(this.userModel);
       }, 
       err => {
         console.log(err);
