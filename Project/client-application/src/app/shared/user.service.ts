@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  apiURL : string = 'http://localhost:4379';
+  baseUri : string = 'http://localhost:4379';
   constructor(private fb: FormBuilder, private http: HttpClient ) { }
 
   formModel = this.fb.group({
@@ -37,11 +37,16 @@ export class UserService {
       Email : this.formModel.value.Email,
       Password : this.formModel.value.UserName
     }
-    return this.http.post(this.apiURL + "/api/auth/register" ,user);
+    return this.http.post(this.baseUri + "/api/auth/register" ,user);
   }
 
   login(data) {
-      return this.http.post(this.apiURL + "/api/auth/login" , data);
+      return this.http.post(this.baseUri + "/api/auth/login" , data);
+  }
+
+  getCurrentUserDataById() {
+    let headerWithToken = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')});
+    return this.http.get(this.baseUri + '/api/users/profile', { headers : headerWithToken });
   }
   
 }

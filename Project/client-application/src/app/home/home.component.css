@@ -5,3 +5,9 @@
 .btn {
     width: 100px;
 }
+
+.card.text-white {
+    max-width: 25rem;
+    width: 25rem; 
+    background-color: #2a306b71;
+}

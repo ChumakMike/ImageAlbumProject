@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserModel } from '../models/user.model';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +10,29 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  userModel : UserModel;
+
+  constructor(private router: Router, private userService:UserService) { }
 
   ngOnInit(): void {
+    this.loadCurrentUserData();
   }
 
   onLogout() {
     localStorage.removeItem('token');
     this.router.navigate(['/user/login']);
+  }
+
+  loadCurrentUserData() {
+    this.userService.getCurrentUserDataById().subscribe(
+      (res:any) => {
+        console.log(res);
+        this.userModel = res;
+        console.log(this.userModel);
+      }, 
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

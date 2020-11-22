@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Project.BusinessLogic.EntitiesDTO;
@@ -42,9 +43,21 @@ namespace Project.WebApi.Controllers {
         [HttpGet]
         [Route("{username}")]
         [Authorize(Roles = "Admin, User, Manager")]
-        public async Task<IActionResult> GetById(string username) {
+        public async Task<IActionResult> GetByName(string username) {
             var user = _mapper.Map<UserVM>(
                 await _userService.GetByUserNameAsync(username));
+            if (user == null) return NotFound();
+            else return Ok(user);
+        }
+
+        [HttpGet]
+        [Route("profile")]
+        [Authorize(Roles = "Admin, User, Manager")]
+        public async Task<IActionResult> GetCurrentUserDataById() {
+            var options = new IdentityOptions();
+            string userId = User.Claims.First(c => c.Type == options.ClaimsIdentity.UserIdClaimType).Value;
+            var user = _mapper.Map<UserVM>(
+                await _userService.GetByIdAsync(userId));
             if (user == null) return NotFound();
             else return Ok(user);
         }
