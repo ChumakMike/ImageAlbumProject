@@ -22,12 +22,15 @@ export class LoginComponent implements OnInit {
       private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    if(this.isAuthenticated())
+      this.router.navigateByUrl('/home');
   }
 
   onSubmit(form:NgForm) {
     this.userService.login(form.value).subscribe(
       (res:any) => {
         localStorage.setItem('token', res.token);
+        this.toastr.success('Welcome ' + form.value.UserName + '!', 'Authentication Success')
         this.router.navigateByUrl('/home');
       },
       err => {
@@ -36,5 +39,11 @@ export class LoginComponent implements OnInit {
         else console.log(err);
       }
     );
+  }
+
+  isAuthenticated() {
+    if(localStorage.getItem('token') != null)
+      return true;
+    else return false;
   }
 }
