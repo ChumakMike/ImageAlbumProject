@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       (res:any) => {
         localStorage.setItem('token', res.token);
         this.toastr.success('Welcome ' + form.value.UserName + '!', 'Authentication Success')
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home/home-profile');
       },
       err => {
         if(err.status == 400)

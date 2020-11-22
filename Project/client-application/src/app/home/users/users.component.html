@@ -1,1 +1,18 @@
-<p>users works!</p>
+<table class="table mt-5 table-bordered table-dark" style="background-color: #2a306b71;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">USERNAME</th>
+        <th scope="col">EMAIL</th>
+        <th scope="col">STATUS</th>
+      </tr>
+    </thead> 
+    <tbody>
+      <tr *ngFor="let user of users; index as i;"> 
+        <th scope="row">{{i}}</th> 
+        <td>{{user.userName}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.status}}</td>
+      </tr>
+    </tbody>
+  </table>

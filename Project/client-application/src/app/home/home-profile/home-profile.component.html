@@ -1,1 +1,17 @@
-<p>home-profile works!</p>
+<div class="container" *ngIf="userModel">
+    <div class="row justify-content-center">
+        <div class="card text-white mb-3 mt-5">
+            <div class="card-header">
+                <h4 class="mt-2">
+                    <i class="tiny material-icons">assignment_ind</i> {{userModel.userName}}
+                </h4>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" > <i class="small material-icons">info</i> Personal information</h5>
+                <p class="card-text">Email: {{userModel.email}}</p>
+                <p class="card-text" *ngIf="userModel.fullName != null">Full Name: {{userModel.fullName}}</p>
+                <p class="card-text" *ngIf="userModel.bio != null">Bio: {{userModel.bio}}</p>
+            </div>
+        </div>
+    </div>
+</div>

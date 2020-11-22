@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { RoleModel } from '../models/role.model';
+import { UserModel } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,9 @@ export class UserService {
         isInRole = true;
     });
     return isInRole;
+  }
+
+  getAllUsers() {
+    return this.http.get(this.baseUri + '/api/users');
   }
 }
