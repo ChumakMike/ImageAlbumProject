@@ -4,7 +4,7 @@ body{
 }
 
 input.form-control,input.form-control:focus{
-    background-color: #636b7b;
+    background-color:#636b7b;
     color: #fff;
     border: 1px solid #636b7b;
 
@@ -20,8 +20,8 @@ button[type=submit].btn {
 }
 
 div.form-group label:not(.text-danger){
-    color: #545d6a;
-    font-weight: 700;
+    color: #ffffffce;
+    font-weight: 500;
 }
 
 div.form-group.required>label:first-child:after{
@@ -40,20 +40,20 @@ div.form-group.required>label:first-child:after{
     flex-direction: column; 
     justify-content: center;
     width: 100%;
-    padding: 20px;
+    padding: 40px;
 }
 
 .wrapper-inside {
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
-    background: #2e3137;
+    background: #000000;
     padding: 30px;
     width: 90%;
     max-width: 450px;
     position: relative;
     padding: 0px;
-    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.87);
+    box-shadow: 0 30px 60px 0 rgba(2, 1, 1, 0.938);
 }
 
 .header-tab{
@@ -67,12 +67,12 @@ div.form-group.required>label:first-child:after{
 
 .header-tab h2 {
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    display:inline-block;
-    padding: 30px 40px 10px 40px;
+    font-size: 20px;
+    font-weight: 700;
+    display: inline-block;
+    padding: 40px 40px 10px 40px;
     cursor: pointer;
-    color: #545d6a;
+    color: #ffffffce;
     border-bottom: 2px solid #545d6a;
 }
 
@@ -81,7 +81,7 @@ div.form-group.required>label:first-child:after{
 }
 
 form {
-    margin: 0px 16px;
+    margin: 2px 15px;
 }
 
 div.form-group input.invalid {
