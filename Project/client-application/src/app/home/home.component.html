@@ -1,6 +1,28 @@
-<nav class="navbar navbar-dark" style="background-color:#03040f;">
+<nav class="navbar navbar-dark  navbar-expand-lg" style="background-color:#03040f;">
     <div class="container">
-        <a class="navbar-brand" href="home">ImageAlbum</a>
+        <a class="navbar-brand" href="home">ImageAlbum</a>  
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" *ngIf="role.name == 'Admin'">
+                    <a href="" class="nav-link" style="color: white;">Users</a>
+                </li>
+                <li class="nav-item" *ngIf="role.name == 'Admin'">
+                    <a href="" class="nav-link" style="color: white;">Roles</a>
+                </li>
+                <li class="nav-item" *ngIf="role.name == 'Manager' || role.name == 'Admin'">
+                    <a href="" class="nav-link" style="color: white;">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link" style="color: white;">Network images</a>
+                </li>
+                <li class="nav-item" *ngIf="role.name == 'User'">
+                    <a href="" class="nav-link" style="color: white;">My images</a>
+                </li>
+            </ul>              
+        </div>
         <button class="btn btn-danger" (click)="onLogout()">Logout</button>
     </div>
 </nav>

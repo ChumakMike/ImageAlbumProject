@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { RoleModel } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class UserService {
 
   baseUri : string = 'http://localhost:4379';
+
   constructor(private fb: FormBuilder, private http: HttpClient ) { }
 
   formModel = this.fb.group({
@@ -46,6 +48,11 @@ export class UserService {
 
   getCurrentUserDataById() {
     return this.http.get(this.baseUri + '/api/users/profile');
+  }
+
+  getCurrentUserRole() {
+    let payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    return payload.role.toString();
   }
 
 }

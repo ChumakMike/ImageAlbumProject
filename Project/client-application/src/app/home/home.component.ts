@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RoleModel } from '../models/role.model';
 import { UserModel } from '../models/user.model';
 import { UserService } from '../shared/user.service';
 
@@ -11,11 +12,16 @@ import { UserService } from '../shared/user.service';
 export class HomeComponent implements OnInit {
 
   userModel : UserModel;
+  role : RoleModel = {
+      id : 0,
+      name : ''
+  }
 
   constructor(private router: Router, private userService:UserService) { }
 
   ngOnInit(): void {
     this.loadCurrentUserData();
+    this.loadCurrentUserRole();
   }
 
   onLogout() {
@@ -32,5 +38,9 @@ export class HomeComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  loadCurrentUserRole() {
+    this.role.name = this.userService.getCurrentUserRole();
   }
 }
