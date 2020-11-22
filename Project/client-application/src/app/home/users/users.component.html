@@ -9,10 +9,10 @@
     </thead> 
     <tbody>
       <tr *ngFor="let user of users; index as i;"> 
-        <th scope="row">{{i}}</th> 
+        <th scope="row">{{i+1}}</th> 
         <td>{{user.userName}}</td>
         <td>{{user.email}}</td>
         <td>{{user.status}}</td>
       </tr>
     </tbody>
-  </table>
+</table>

@@ -26,6 +26,13 @@ namespace Project.WebApi.Controllers {
             _imageService = imageService;
         }
 
+        /// <summary>
+        /// Get all images
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Images list</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin, Manager, User")]
         public async Task<IActionResult> GetAll() {
@@ -36,6 +43,13 @@ namespace Project.WebApi.Controllers {
                 : Ok(imagesList);
         }
 
+        /// <summary>
+        ///  Gets image by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="200">Image found</response>
+        /// </returns>
         [HttpGet]
         [Route("{id}")]
         [Authorize(Roles = "Admin, Manager, User")]
@@ -45,6 +59,15 @@ namespace Project.WebApi.Controllers {
             return Ok(image);
         }
 
+        /// <summary>
+        /// Create image
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns>
+        /// <response code="200">Image created</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal server error</response>
+        /// </returns>
         [HttpPost, DisableRequestSizeLimit]
         [Route("create")]
         [Authorize(Roles = "User")]
@@ -52,8 +75,6 @@ namespace Project.WebApi.Controllers {
             if (image == null)
                 return BadRequest("The image model is null");
             try {
-
-                //check
 
                 var file = Request.Form.Files[0];
                 var folderName = Path.Combine("Resources", "ImagesStorage");
@@ -82,6 +103,14 @@ namespace Project.WebApi.Controllers {
             }
         }
 
+        /// <summary>
+        /// Delete image
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns>
+        /// <response code="200">Image deleted</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpDelete]
         [Route("delete")]
         [Authorize(Roles = "Manager, User")]
@@ -93,6 +122,14 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+        /// <summary>
+        /// Update image
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns>
+        /// <response code="200">Image updated</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "Manager, User")]

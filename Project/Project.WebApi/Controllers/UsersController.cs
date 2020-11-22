@@ -31,6 +31,13 @@ namespace Project.WebApi.Controllers {
             _imageService = imageService;
         }
 
+        /// <summary>
+        /// Get all Users
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Users list</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll() {
@@ -40,6 +47,14 @@ namespace Project.WebApi.Controllers {
             else return Ok(usersList);
         }
 
+        /// <summary>
+        /// Get user by username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>
+        /// <response code="200">User found</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Route("{username}")]
         [Authorize(Roles = "Admin, User, Manager")]
@@ -50,6 +65,13 @@ namespace Project.WebApi.Controllers {
             else return Ok(user);
         }
 
+        /// <summary>
+        /// Get Current User 
+        /// </summary>
+        /// <returns>
+        /// <response code="200">User found</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Route("profile")]
         [Authorize(Roles = "Admin, User, Manager")]
@@ -62,6 +84,13 @@ namespace Project.WebApi.Controllers {
             else return Ok(user);
         }
 
+        /// <summary>
+        /// Add user to role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <response code="200">User added</response>
+        /// </returns>
         [HttpPost]
         [Route("addrole")]
         [Authorize(Roles = "Admin")]
@@ -69,7 +98,14 @@ namespace Project.WebApi.Controllers {
             await _userService.AddUserToRoleAsync(user.UserName, user.Role);
             return Ok();
         }
-        
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <response code="200">User updated</response>
+        /// </returns>
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "Admin, User")]
@@ -78,6 +114,13 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+        /// <summary>
+        /// Update user to role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <response code="200">User to role updated</response>
+        /// </returns>
         [HttpPut]
         [Route("roleupdate")]
         [Authorize(Roles = "Admin")]
@@ -86,6 +129,15 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+
+        /// <summary>
+        /// Get Rated Posts 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="200">Rated Posts  found</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Route("{id}/rated")]
         [Authorize(Roles = "Admin")]
@@ -96,6 +148,14 @@ namespace Project.WebApi.Controllers {
                 : Ok(ratingsList);
         }
 
+        /// <summary>
+        /// Get all user's images
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="200">User's images found</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Route("{id}/images")]
         [Authorize(Roles = "Admin, Manager, User")]

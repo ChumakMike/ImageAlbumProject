@@ -37,6 +37,14 @@ namespace Project.WebApi.Controllers {
             _roleService = roleService;
         }
 
+        /// <summary>
+        /// Authenticates user in the system
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>
+        /// <response code="200">User authenticated and token created</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model) {
@@ -59,6 +67,14 @@ namespace Project.WebApi.Controllers {
             });
         }
 
+        /// <summary>
+        /// Registers user in a system
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <response code="200">User created</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] Models.Auth.RegisterModel user) {
@@ -69,7 +85,14 @@ namespace Project.WebApi.Controllers {
             await _userService.AddUserToRoleAsync(user.UserName, defaultRole);
             return Ok(result);
         }
-
+        /// <summary>
+        /// Creates token descriptor
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <param name="userId"></param>
+        /// <returns>
+        /// returns tuned token descriptor
+        /// </returns>
         private SecurityTokenDescriptor CreateTokenDescriptor(IList<string> roles, string userId) {
             IdentityOptions options = new IdentityOptions();
             var tokenDescriptor = new SecurityTokenDescriptor() {

@@ -25,6 +25,14 @@ namespace Project.WebApi.Controllers {
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Creates new role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns>
+        /// <response code="200">Role is created</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> CreateRole([FromBody] RoleVM role) {
@@ -34,6 +42,14 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes the role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns>
+        /// <response code="200">Role is deleted</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> DeleteRole([FromBody]RoleVM role) {
@@ -43,13 +59,27 @@ namespace Project.WebApi.Controllers {
             return Ok();
         }
 
+
+        /// <summary>
+        /// Get all roles
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Roles list</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpGet]
         public IActionResult GetRoles() {
             var rolesList = _mapper.Map<IEnumerable<RoleVM>>(_roleService.GetAllRoles());
             return Ok(rolesList);
         }
 
-        
+        /// <summary>
+        /// Get all roles by user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <response code="200">Roles list</response>
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> GetRolesByUser([FromBody]UserVM user) {
             var userDTO = _mapper.Map<UserDTO>(user);

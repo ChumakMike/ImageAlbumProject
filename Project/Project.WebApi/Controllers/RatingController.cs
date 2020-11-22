@@ -22,6 +22,13 @@ namespace Project.WebApi.Controllers {
             _ratingService = ratingService;
         }
 
+        /// <summary>
+        /// Get all ratings
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Ratings list</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpGet]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetAll() {
@@ -32,6 +39,14 @@ namespace Project.WebApi.Controllers {
                 : Ok(ratingsList);
         }
 
+        /// <summary>
+        ///  Create rating
+        /// </summary>
+        /// <param name="rating"></param>
+        /// <returns>
+        /// <response code="200">Image created</response>
+        /// <response code="404">Not Found</response>
+        /// </returns>
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "User")]
@@ -44,6 +59,14 @@ namespace Project.WebApi.Controllers {
                 : (IActionResult)NotFound();
         }
 
+        /// <summary>
+        ///  Gets rating by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="200">Rating found</response>
+        /// <response code="400">Bad request</response>
+        /// </returns>
         [HttpGet]
         [Route("{id}")]
         [Authorize(Roles = "Manager")]

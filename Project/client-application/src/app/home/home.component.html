@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark  navbar-expand-lg" style="background-color:#03040f;">
     <div class="container">
-        <a class="navbar-brand" href="/home/home-profile">ImageAlbum</a>  
+        <a class="navbar-brand" routerLink="/home/home-profile" routerLinkActive="Active">ImageAlbum</a>  
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,10 +10,10 @@
                     <a routerLink="/home/users" routerLinkActive="Active" class="nav-link" style="color: white;">Users</a>
                 </li>
                 <li class="nav-item" *ngIf="role.name == 'Admin'">
-                    <a href="" class="nav-link" style="color: white;">Roles</a>
+                    <a routerLink="/home/roles" routerLinkActive="Active" class="nav-link" style="color: white;">Roles</a>
                 </li>
                 <li class="nav-item" *ngIf="role.name == 'Manager' || role.name == 'Admin'">
-                    <a href="" class="nav-link" style="color: white;">Categories</a>
+                    <a routerLink="/home/categories" routerLinkActive="Active" class="nav-link" style="color: white;">Categories</a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link" style="color: white;">Network images</a>

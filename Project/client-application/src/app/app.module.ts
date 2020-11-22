@@ -16,6 +16,10 @@ import { HomeComponent } from './home/home.component';
 import { AuhtInterceptor } from './auth/auth.interceptor';
 import { UsersComponent } from './home/users/users.component';
 import { HomeProfileComponent } from './home/home-profile/home-profile.component';
+import { RoleService } from './shared/role.service';
+import { RolesComponent } from './home/roles/roles.component';
+import { CategoriesComponent } from './home/categories/categories.component';
+import { CategoryService } from './shared/category.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { HomeProfileComponent } from './home/home-profile/home-profile.component
     LoginComponent,
     HomeComponent,
     UsersComponent,
-    HomeProfileComponent
+    HomeProfileComponent,
+    RolesComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,9 @@ import { HomeProfileComponent } from './home/home-profile/home-profile.component
     provide : HTTP_INTERCEPTORS,
     useClass : AuhtInterceptor,
     multi : true 
-  }
+  }, 
+  RoleService,
+  CategoryService
 ],
   bootstrap: [AppComponent]
 })
