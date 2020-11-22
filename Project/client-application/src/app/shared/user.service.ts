@@ -55,4 +55,14 @@ export class UserService {
     return payload.role.toString();
   }
 
+  isUserInRole(roles) {
+    let isInRole = false;
+    let payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    let role = payload.role;
+    roles.forEach(element => {
+      if(role == element)
+        isInRole = true;
+    });
+    return isInRole;
+  }
 }

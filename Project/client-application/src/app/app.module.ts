@@ -14,6 +14,8 @@ import { UserService } from './shared/user.service';
 import { LoginComponent } from './user/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuhtInterceptor } from './auth/auth.interceptor';
+import { UsersComponent } from './home/users/users.component';
+import { HomeProfileComponent } from './home/home-profile/home-profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { AuhtInterceptor } from './auth/auth.interceptor';
     UserComponent,
     RegistrationComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    UsersComponent,
+    HomeProfileComponent
   ],
   imports: [
     BrowserModule,

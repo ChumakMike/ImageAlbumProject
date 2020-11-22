@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" *ngIf="role.name == 'Admin'">
-                    <a href="" class="nav-link" style="color: white;">Users</a>
+                    <a routerLink="/home/users" routerLinkActive="Active" class="nav-link" style="color: white;">Users</a>
                 </li>
                 <li class="nav-item" *ngIf="role.name == 'Admin'">
                     <a href="" class="nav-link" style="color: white;">Roles</a>
@@ -26,6 +26,10 @@
         <button class="btn btn-danger" (click)="onLogout()">Logout</button>
     </div>
 </nav>
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
 
 <div class="container" *ngIf="userModel">
     <div class="row justify-content-center">
